@@ -11,3 +11,4 @@ requests==2.4.3
 requests-oauthlib==0.4.2
 onetimepass
 qrcode
+Pillow

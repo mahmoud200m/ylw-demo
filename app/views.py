@@ -109,6 +109,22 @@ def register(request):
 
             user.save()
 
+            import qrcode
+            from Pillow import Image
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data('Some data')
+            qr.make(fit=True)
+
+            img = qr.make_image()
+
+            import sys
+            print >> sys.stderr, '\n\n\n'+img+'\n\n\n'
+
             request.session['message'] = 'registration done please login <br /> your security code is: '+key
             return redirect("/")
         else:

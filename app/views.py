@@ -110,7 +110,7 @@ def register(request):
             user.save()
 
             import qrcode
-            from Pillow import Image
+            from PIL import Image
             qr = qrcode.QRCode(
                 version=1,
                 error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -121,13 +121,25 @@ def register(request):
             qr.make(fit=True)
 
             img = qr.make_image()
+            img.save(key, "PNG")
 
-            import sys
-            print >> sys.stderr, '\n\n\n'+img+'\n\n\n'
-
-            request.session['message'] = 'registration done please login <br /> your security code is: '+key
+            request.session['message'] = 'registration done please login <br /> your security code is: '+key+'<img src="'+key+'.png" />'
             return redirect("/")
         else:
             request.session['error'] = user_form.errors
             return redirect("/")
+
+from PIL import Image
+from django.views.decorators.cache import cache_page
+
+@cache_page(60 * 15)    #cached for 15 minutes
+def getImg(request):
+    #Getting the image url
+
+    #image is the Image object of PIL
+
+    # serialize to HTTP response http://effbot.org/zone/django-pil.htm
+    response = HttpResponse(mimetype="image/png")
+    image.save(response, "PNG")
+    return response
 

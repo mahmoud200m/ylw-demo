@@ -2,6 +2,9 @@ from django.contrib.auth.models import check_password
 from django.contrib.auth import get_user_model
 import onetimepass as otp
 
+"""
+custom backend for the user authentication
+"""
 class SecureuthBackend(object):
     def authenticate(self, username=None, password=None,  secureKey=None):
         """ Authenticate a user based onu sername, password and secureKey. """
